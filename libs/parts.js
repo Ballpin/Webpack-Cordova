@@ -80,27 +80,52 @@ exports.setupIndexHTML = function (options) {
 };
 
 
-exports.copyWebpackPlugin = function (paths, build) {
+exports.CleanWebpackPlugin = function (root) {
   return {
-    context: paths,
-    devServer: {
-      // This is required for webpack-dev-server if using a version <3.0.0.
-      // The path should be an absolute path to your build destination.
-      outputPath: build + '/'
-    },
+    plugins: [
+      new CleanWebpackPlugin(['www'], {
+        root: root,
+        verbose: false,
+        dry: false,
+        exclude: []
+      })
+    ]
+  };
+};
+
+exports.babel = function () {
+  return {
+    module: {
+      loaders: [
+        {
+          test: /\.js$/,
+          exclude: /(node_modules|bower_components)/,
+          loader: 'babel-loader', // 'babel-loader' is also a legal name to reference
+          query: {
+            presets: ['es2015']
+          }
+        }
+      ]
+    }
+  }
+};
+
+exports.copyWebpackPlugin = function (app, build) {
+  return {
     plugins: [
       new CopyWebpackPlugin([
         // Copy directory contents to {output}/to/directory/
-        {from: paths + '/assets/', to: './build'},
-        {from: paths + '/*.html', to: './build'}
+        {from: app + '/img', to: 'img'},
+        {from: app + '/fonts', to: 'fonts'}
       ], {
         ignore: [
           // Doesn't copy any files with a txt extension
           '*.txt',
 
           // Doesn't copy any file, even if they start with a dot
-          {glob: '**/*', dot: true}
+          {dot: true}
         ],
+        flatten: true,
 
         // By default, we only copy modified files during
         // a watch or webpack-dev-server build. Setting this
@@ -132,3 +157,5 @@ exports.npmInstall = function (options) {
     ]
   };
 };
+
+

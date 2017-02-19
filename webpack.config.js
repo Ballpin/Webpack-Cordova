@@ -77,13 +77,14 @@ switch (process.env.npm_lifecycle_event) {
       {
         devtool: 'eval-source-map'
       },
+      parts.CleanWebpackPlugin(__dirname),
+      parts.babel(),
       parts.setupIndexHTML(
-        PATHS.template,
-        [PATHS.scripts + 'app.js']
+        PATHS.template
       ),
-      parts.setupSCSS(PATHS.style)
-      // parts.copyWebpackPlugin(PATHS.app, PATHS.build),
-      // parts.rawLoader(),
+      parts.setupSCSS(PATHS.style),
+      parts.copyWebpackPlugin(PATHS.app, PATHS.build)
+      //parts.rawLoader()
       // parts.devServer({
       //     // Customize host/port here if needed
       //     host: process.env.HOST,
