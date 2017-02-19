@@ -1,6 +1,5 @@
 const webpack            = require('webpack');
 const CleanWebpackPlugin = require('clean-webpack-plugin');
-const ExtractTextPlugin  = require('extract-text-webpack-plugin');
 const HtmlWebpackPlugin  = require('html-webpack-plugin');
 const NpmInstallPlugin   = require('npm-install-webpack-plugin');
 const CopyWebpackPlugin  = require('copy-webpack-plugin');
@@ -145,6 +144,19 @@ exports.rawLoader = function () {
       }]
     }
   }
+};
+
+exports.cordova = function () {
+  return {
+    plugins: [
+      new CordovaPlugin({
+        config: 'config.xml',  // Location of Cordova' config.xml (will be created if not found)
+        src: 'index.html',     // Set entry-point of cordova in config.xml
+        platform: 'android', // (or 'ios') Set `webpack-dev-server` to correct `contentBase` to use Cordova plugins.
+        version: true,         // Set config.xml' version. (true = use version from package.json)
+      })
+    ]
+  };
 };
 
 

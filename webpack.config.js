@@ -83,7 +83,8 @@ switch (process.env.npm_lifecycle_event) {
         PATHS.template
       ),
       parts.setupSCSS(PATHS.style),
-      parts.copyWebpackPlugin(PATHS.app, PATHS.build)
+      parts.copyWebpackPlugin(PATHS.app, PATHS.build),
+      parts.cordova()
       //parts.rawLoader()
       // parts.devServer({
       //     // Customize host/port here if needed
